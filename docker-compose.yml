@@ -2,7 +2,7 @@ version: '3'
 
 services:
   fluentbit:
-    build: ./fluentbit
+    image: fluent/fluent-bit:1.9.3
     container_name: fluentbit
     ports:
       - 24224:24224
@@ -20,4 +20,5 @@ services:
         tag: "app.java-slf4j.testapp"
     depends_on:
       - fluentbit
+
     
