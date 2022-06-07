@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  fluentbit:
+    build: ./fluentbit
+    container_name: fluentbit
+    ports:
+      - 24224:24224
+    volumes:
+      - ./fluentbit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf
+      - ./fluentbit/custom_parsers.conf:/fluent-bit/etc/custom_parsers.conf
+  app:
+    build: ./sample-java-app
+    ports:
+      - 8080:8080
+    logging:
+      driver: fluentd
+      options:
+        fluentd-address: "localhost:24224"
+        tag: "app.java-slf4j.testapp"
+    depends_on:
+      - fluentbit
+    
